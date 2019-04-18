@@ -1,48 +1,35 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import axios from '../../axios-orders';
 
 import Order from '../../components/Order';
-import axios from '../../axios-orders';
 import withErrorHandler from '../../hoc/withErrorHandler';
+import Spinner from '../../components/UI/Spinner';
 
-class Orders extends Component {
-	state = {
-		orders: [],
-		loading: true
-	};
+export default connect(mapStateToProps, mapDispatchToProps)(
+	withErrorHandler((props) => {
+		useEffect(() => {
+			props.onFetchOrders();
+		}, []);
+		let orders = <Spinner />;
+		if (!props.loading) {
+			orders = props.orders.map((order) => (
+				<Order key={order.id} ingredients={order.ingredients} price={order.price} />
+			));
+		}
+		return <div>{orders}</div>;
+	}, axios)
+);
 
-	componentDidMount() {
-		// From orders we fetch an object.
-		axios
-			.get('/orders.json')
-			.then((res) => {
-				console.log('Orders: ', res.data); 
-				//convert the object into an array:
-				const fetchedOrders = [];
-				for (const key in res.data) {
-					if (res.data.hasOwnProperty(key)) {
-						fetchedOrders.push({ ...res.data[key], id: key });
-					}
-				}
-				this.setState({ loading: false, orders: fetchedOrders });
-			})
-			.catch((err) => {
-				this.setState({ loading: false });
-			});
-	}
+const mapStateToProps = state => {
+    return {
+        orders: state.order.orders,
+        loading: state.order.loading
+    };
+};
 
-	render() {
-		// I obviously want to output multiple orders,
-		// actually as many orders as needed and the orders I need to output
-		// of course should be fetched from the backend.
-		return (
-			<div>
-				{this.state.orders.map((orders) => (
-					// Do this: price={+order.price} so the toFixed(2) will work in Order.js
-					<Order key={orders.id} ingredients={orders.ingredients} price={orders.price} />
-				))}
-			</div>
-		);
-	}
-}
-
-export default withErrorHandler(Orders, axios);
+const mapDispatchToProps = dispatch => {
+    return {
+        onFetchOrders: () => dispatch( actions.fetchOrders() )
+    };
+};
