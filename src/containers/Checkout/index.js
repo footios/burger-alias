@@ -1,9 +1,16 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import CheckoutSummary from '../../components/Order/CheckoutSummary';
 import ContactData from '../ContactData';
+
+const mapStateToProps = (state) => {
+	return {
+		ings: state.burgerBuilder.ingredients,
+		purchased: state.order.purchased
+	};
+};
 
 export default connect(mapStateToProps)((props) => {
 	const checkoutCancelledHandler = () => {
@@ -31,9 +38,4 @@ export default connect(mapStateToProps)((props) => {
 	}
 	return summary;
 });
-const mapStateToProps = (state) => {
-	return {
-		ings: state.burgerBuilder.ingredients,
-		purchased: state.order.purchased
-	};
-};
+

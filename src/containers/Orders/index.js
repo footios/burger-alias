@@ -5,6 +5,21 @@ import axios from '../../axios-orders';
 import Order from '../../components/Order';
 import withErrorHandler from '../../hoc/withErrorHandler';
 import Spinner from '../../components/UI/Spinner';
+import * as actions from '../../store/actions/index';
+
+
+const mapStateToProps = state => {
+    return {
+        orders: state.order.orders,
+        loading: state.order.loading
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onFetchOrders: () => dispatch( actions.fetchOrders() )
+    };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(
 	withErrorHandler((props) => {
@@ -20,16 +35,3 @@ export default connect(mapStateToProps, mapDispatchToProps)(
 		return <div>{orders}</div>;
 	}, axios)
 );
-
-const mapStateToProps = state => {
-    return {
-        orders: state.order.orders,
-        loading: state.order.loading
-    };
-};
-
-const mapDispatchToProps = dispatch => {
-    return {
-        onFetchOrders: () => dispatch( actions.fetchOrders() )
-    };
-};

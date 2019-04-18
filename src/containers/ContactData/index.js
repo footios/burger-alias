@@ -5,11 +5,24 @@ import axios from '../../axios-orders';
 import Button from '../../components/UI/Button';
 import Spinner from '../../components/UI/Spinner';
 import Input from '../../components/UI/Input';
-import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler'
-import * as actions from '../../../store/actions/index';
+import withErrorHandler from '../../hoc/withErrorHandler'
+import * as actions from '../../store/actions';
 
 import classes from './index.module.css';
 
+const mapStateToProps = state => {
+	return {
+		ings: state.burgerBuilder.ingredients,
+		price: state.burgerBuilder.totalPrice,
+		loading: state.order.loading
+	}
+};
+
+const mapDispatchToProps = dispatch => {
+	return {
+		onOrderBurger: (orderData) => dispatch(actions.purchaseBurger(orderData))
+	};
+};
 
 //child of Checkout
 export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(
@@ -194,19 +207,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(
 			);
 		}, axios));
 
-		const mapStateToProps = state => {
-			return {
-				ings: state.burgerBuilder.ingredients,
-				price: state.burgerBuilder.totalPrice,
-				loading: state.order.loading
-			}
-		};
-		
-		const mapDispatchToProps = dispatch => {
-			return {
-				onOrderBurger: (orderData) => dispatch(actions.purchaseBurger(orderData))
-			};
-		};
+	
 
 
 

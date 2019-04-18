@@ -5,8 +5,8 @@ import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk'
 
-import { burgerBuilderReducer } from './store/reducers/burgerBuilderReducer';
-import { orderReducer } from './store/reducers/orderReducer'
+import burgerBuilderReducer  from './store/reducers/burgerBuilder';
+import orderReducer  from './store/reducers/order'
 
 import './index.module.css';
 import App from './App';

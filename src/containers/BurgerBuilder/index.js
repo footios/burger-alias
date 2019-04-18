@@ -11,6 +11,23 @@ import Spinner from '../../components/UI/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler';
 import * as actions from '../../store/actions/';
 
+const mapStateToProps = (state) => {
+	return {
+		ings: state.burgerBuilder.ingredients,
+		price: state.burgerBuilder.totalPrice,
+		error: state.burgerBuilder.error
+	};
+};
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		onIngredientAdded: (ingName) => dispatch(actions.addIngredient(ingName)),
+		onIngredientRemoved: (ingName) => dispatch(actions.removeIngredient(ingName)),
+		onInitIngredients: () => dispatch(actions.initIngredients()),
+		onInitPurchase: () => dispatch(actions.purchaseInit())
+	};
+};
+
 export default connect(mapStateToProps, mapDispatchToProps)(
 	withErrorHandler((props) => {
 		const [ purchasing, setPurchasing ] = useState(false);
@@ -34,7 +51,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(
 			setPurchasing(true);
 		};
 
-		const purchaseCanselHandler = () => {
+		const purchaseCancelHandler = () => {
 			setPurchasing(false);
 		};
 
@@ -45,7 +62,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(
 
 		// This is for the less button. So values don't get a minus value.
 		const disabledInfo = {
-			...ingredients
+			...props.ings
 		};
 		// Here we assing to the value a boolean => true/false
 		for (let key in disabledInfo) {
@@ -81,29 +98,14 @@ export default connect(mapStateToProps, mapDispatchToProps)(
 		// {salad: true, meat: false, ...}
 		return (
 			<Aux>
-				<Modal show={state.purchasing} modalClosed={purchaseCancelHandler}>
+				<Modal show={purchasing} modalClosed={purchaseCancelHandler}>
 					{orderSummary}
 				</Modal>
 				{burger}
 			</Aux>
 		);
-	}),
-	axios
+	},
+	axios)
 );
 
-const mapStateToProps = (state) => {
-	return {
-		ings: state.burgerBuilder.ingredients,
-		price: state.burgerBuilder.totalPrice,
-		error: state.burgerBuilder.error
-	};
-};
 
-const mapDispatchToProps = (dispatch) => {
-	return {
-		onIngredientAdded: (ingName) => dispatch(actions.addIngredient(ingName)),
-		onIngredientRemoved: (ingName) => dispatch(actions.removeIngredient(ingName)),
-		onInitIngredients: () => dispatch(actions.initIngredients()),
-		onInitPurchase: () => dispatch(actions.purchaseInit())
-	};
-};
