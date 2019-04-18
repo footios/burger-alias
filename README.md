@@ -9,4 +9,4 @@ We use:
 * `index.js` for all files (in their particular folder) and we export them like: `export default () => {...}`
 
 Here we take it from 30-burger-alias.
-We start from Section 15 (Adding Redux).
+We modified the code from section 17 (Redux Advanced: Burger Project)
