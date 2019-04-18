@@ -1,5 +1,5 @@
 import * as actionTypes from '../actions/actionTypes';
-import { updateObject } from '../../shared/utility'
+import { updateObject } from '../utility';
 
 const initialState = {
     orders: [],
@@ -12,7 +12,7 @@ const purchaseInit = ( state, action ) => {
 };
 
 const purchaseBurgerStart = ( state, action ) => {
-    return updateObject( state, { loading: true } );
+    return updateObject( state, { loading: false } );
 };
 
 const purchaseBurgerSuccess = ( state, action ) => {
@@ -43,7 +43,7 @@ const fetchOrdersFail = ( state, action ) => {
     return updateObject( state, { loading: false } );
 };
 
-export const orderReducer = ( state = initialState, action ) => {
+const reducer = ( state = initialState, action ) => {
     switch ( action.type ) {
         case actionTypes.PURCHASE_INIT: return purchaseInit( state, action );
         case actionTypes.PURCHASE_BURGER_START: return purchaseBurgerStart( state, action );
@@ -55,3 +55,5 @@ export const orderReducer = ( state = initialState, action ) => {
         default: return state;
     }
 };
+
+export default reducer;

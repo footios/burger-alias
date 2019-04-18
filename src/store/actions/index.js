@@ -1,4 +1,10 @@
-export * from './burgerBuilderActions'
-export * from './orderActions'
-export * from './AuthActions'
-export * from './fetchOrderActions'
+export {
+    addIngredient,
+    removeIngredient,
+    initIngredients
+} from './burgerBuilder';
+export {
+    purchaseBurger,
+    purchaseInit,
+    fetchOrders
+} from './order';
