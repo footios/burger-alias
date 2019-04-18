@@ -124,7 +124,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(
 				orderData: formData
 			};
 	
-			this.props.onOrderBurger(order);
+			props.onOrderBurger(order);
 		};
 	
 		const checkValidity = (value, rules) => {
